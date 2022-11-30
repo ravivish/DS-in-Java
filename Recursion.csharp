@@ -1,0 +1,160 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DevCI
+{
+    public static class Recursion
+    {
+        public static int power(int num, int pow)
+        {
+            if (pow == 0)
+            {
+                return 1;
+            }
+            return num * power(num, pow - 1);
+        }
+        public static int fastPower(int num, int pow)
+        {
+            if (pow == 1)
+            {
+                return num;
+            }
+            int subProblem = fastPower(num, pow / 2);
+            int seqSubProblem = subProblem * subProblem;
+            if (num % 2 != 0)
+            {
+                return num * seqSubProblem;
+            }
+            return seqSubProblem;
+        }
+        public static void DecreasingNumber(int n)
+        {
+            if (n == 0)
+            {
+                return;
+            }
+            Console.WriteLine(n);
+            DecreasingNumber(n - 1);
+        }
+
+        //Console.ReadLine();
+
+        public static void IncreasingNumber(int n)
+        {
+            if (n == 0)
+            {
+                return;
+            }
+            IncreasingNumber(n - 1);
+            Console.WriteLine(n);
+        }
+
+
+
+        public static bool isSorted(int[] arr, int n)
+        {
+            if (n == 1)
+            {
+                if (arr[n] > arr[n - 1])
+                {
+                    return true;
+                }
+                return false;
+            }
+            return arr[n - 1] > arr[n - 2] && isSorted(arr, n - 1);
+        }
+
+        public static void allSubSeqUsingPowerSet(string s)
+        {
+            int n = s.Length;
+            for (int num = 0; num < Math.Pow(2, n); num++)
+            {
+                string sub = string.Empty;
+                for (int i = 0; i < n ; i++)
+                {
+                    if ((num & (1 << i)) != 0)
+                        sub += s[i];
+                }
+                Console.WriteLine(sub);
+            }
+        }
+        public static void allSubSeqUsingRecursion(int index, IList<int> ds,int[] arr)
+        {
+            if (index >= arr.Length)
+            {
+                printArray(ds);
+                return;
+            }
+            allSubSeqUsingRecursion(index + 1, ds, arr);//use it as last statement to print in reverse order
+            ds.Add(arr[index]);
+            allSubSeqUsingRecursion(index + 1, ds, arr);
+            ds.Remove(arr[index]);
+
+        }
+
+        private static void printArray(IList<int> ds)
+        {
+            foreach (var item in ds)
+            {
+                Console.Write(item+",");
+            }
+            if(ds.Count == 0)
+            {
+                Console.Write("{}");
+            }
+            Console.WriteLine();
+        }
+
+        internal static void CombinationSum(int index, IList<int> ds, int target, int[] arr)
+        {
+            if(index == arr.Length)
+            {
+                if(target == 0)
+                {
+                    foreach (var item in ds)
+                    {
+                        Console.Write(item+" ");
+                    }
+                    Console.WriteLine() ;
+                }
+                return;
+            }
+            if (arr[index] <= target)
+            {
+                ds.Add(arr[index]);
+                CombinationSum(index,ds,target - arr[index],arr);
+                ds.Remove(arr[index]);
+            }
+
+            CombinationSum(index+1,ds,target,arr);
+
+
+        }
+
+        internal static void SubSetNewtech(int index, List<int> ds, List<List<int>> ans, int[] arr)
+        {
+            ans.Add(new List<int>(ds));
+            for (int i = index; i < arr.Length; i++)
+            {
+                ds.Add(arr[index]);
+                SubSetNewtech(i+1,ds,ans,arr);
+                ds.Remove(ds.Count - 1);
+            }
+        }
+
+        internal static void PrintListOfList(List<List<int>> ans)
+        {
+            foreach (var item in ans)
+            {
+                foreach (var element in item)
+                {
+                    Console.Write(element + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
