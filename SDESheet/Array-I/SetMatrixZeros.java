@@ -1,4 +1,4 @@
-package ArrayI;
+package Array-I;
 
 public class SetMatrixZeros {
     public static void main(String[] args) {
